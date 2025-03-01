@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Professor Form</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: url('/images/professores.webp') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        h1 {
+            margin-bottom: 1em;
+        }
+
+        form {
+            background: white;
+            padding: 2em;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5em;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 0.5em;
+            margin-bottom: 1em;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        a {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            padding: 0.5em;
+            margin-bottom: 1em;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        div {
+            color: #fa0000;
+            border: none;
+            margin: 0 0 1em 0;
+            cursor: pointer;
+        }
+
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+<h1 th:text="${#strings.equals(professor.id, null) ? 'Novo Professor' : 'Editar Professor'}"></h1>
+
+<form th:action="@{/professores/edit2}" th:object="${professor}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    <input type="hidden" th:field="*{originalEmail}" /> <!-- Campo oculto para armazenar o email original -->
+    <label>Nome: <input type="text" th:field="*{nome}" required/></label><br>
+    <label>Email: <input type="text" th:field="*{email}" readonly/></label><br>
+    <label>Password: <input type="password" th:field="*{password}" required minlength="8"/></label><br>
+    <button type="submit">Salvar</button>
+    <a class="inicio" href="/professores">Voltar Atrás</a>
+    <div></div>
+    <div th:if="${error}" th:text="${error}" class="error-message"></div>
+</form>
+</body>
+</html>

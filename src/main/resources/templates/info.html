@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Informações da Escola</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: url('/images/ia.webp') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        .button-container {
+            border: 2px solid #fff;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 10px #000;
+            width: auto;
+        }
+
+        h1 {
+            margin-bottom: 1em;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 1em;
+        }
+
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            font-size: 16px;
+            padding: 0.5em 1em;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        .modal {
+            display: none;
+            position: absolute;
+            z-index: 1;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 800px;
+            color: white;
+        }
+
+        .modal-content {
+            background-color: rgba(255, 255, 255, 0.9); /* Fundo branco translúcido */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 100%;
+            border-radius: 10px;
+            color: black;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        a {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            font-size: 17px;
+            padding: 0.2em 1em;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        /* CSS para tabelas */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1em;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 0.75em;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        /* Adicional de CSS para melhor visualização */
+        .modal-content h2 {
+            margin-top: 0;
+        }
+
+        .modal-content p {
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+
+        .modal-content ul {
+            padding-left: 20px;
+        }
+
+        .modal-content ul li {
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="button-container">
+    <h1>Informações da Escola</h1>
+    <ul>
+        <li><button id="btnCursoComMaisAlunos" onmouseover="openModal('modalCursoComMaisAlunos', this)" onmouseout="closeModal('modalCursoComMaisAlunos')">Curso com mais alunos inscritos</button></li>
+        <li><button id="btnCursosEmFuncionamento" onmouseover="openModal('modalCursosEmFuncionamento', this)" onmouseout="closeModal('modalCursosEmFuncionamento')">Cursos em funcionamento</button></li>
+        <li><button id="btnCursoComMaisHoras" onmouseover="openModal('modalCursoComMaisHoras', this)" onmouseout="closeModal('modalCursoComMaisHoras')">Curso com maior número de horas</button></li>
+        <li><button id="btnIdadeMediaPorCurso" onmouseover="openModal('modalIdadeMediaPorCurso', this)" onmouseout="closeModal('modalIdadeMediaPorCurso')">Idade média dos alunos por curso</button></li>
+    </ul>
+    <a class="inicio" href="/">Voltar Atras</a>
+</div>
+
+<!-- Modal Templates -->
+<div id="modalCursoComMaisAlunos" class="modal">
+    <div class="modal-content">
+        <h2>Curso com mais alunos inscritos</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Nome do Curso</th>
+                <th>Número de Alunos</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${cursoComMaisAlunos.nome}">Nome do Curso</td>
+                <td th:text="${cursoComMaisAlunos.alunos.size()}">Número de Alunos</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="modalCursosEmFuncionamento" class="modal">
+    <div class="modal-content">
+        <h2>Cursos em funcionamento</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Descrição</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="curso : ${cursosEmFuncionamento}">
+                <td th:text="${curso.nome}">Nome do Curso</td>
+                <td th:text="${curso.descricao}">Descrição do Curso</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="modalCursoComMaisHoras" class="modal">
+    <div class="modal-content">
+        <h2>Curso com maior número de horas</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Nome do Curso</th>
+                <th>Número de Horas</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${cursoComMaisHoras.nome}">Nome do Curso</td>
+                <td th:text="${cursoComMaisHoras.numeroHoras}">Número de Horas</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="modalIdadeMediaPorCurso" class="modal">
+    <div class="modal-content">
+        <h2>Idade média dos alunos por curso</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Curso</th>
+                <th>Idade Média</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="entry : ${idadeMediaPorCurso}">
+                <td th:text="${entry.key}">Curso</td>
+                <td th:text="${entry.value}">Idade Média</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function openModal(modalId, button) {
+        var modal = document.getElementById(modalId);
+        var rect = button.getBoundingClientRect();
+        modal.style.top = rect.top - 200 + "px"; // Posiciona o modal 200px acima do botão
+        modal.style.left = rect.left + "px";
+        modal.style.display = "block";
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = "none";
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Escola de Dança</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: url('/images/menu.webp') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #e80909;
+            position: relative;
+        }
+
+        .welcome-container {
+            text-align: center;
+            border: 2px solid #fff; /* Bordas brancas */
+            padding: 20px;
+            border-radius: 15px; /* Bordas arredondadas */
+            background-color: rgba(255, 255, 255, 0.8); /* Fundo branco translúcido */
+            box-shadow: 0px 0px 10px #000000; /* Sombra leve */
+            width: 80%; /* Largura do container */
+            max-width: 600px; /* Máximo de largura */
+        }
+
+        h1 {
+            margin-bottom: 1em;
+            color: #0e0101; /* Mudança na cor do título */
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0 0 2em 0; /* Espaço entre os botões, conforme solicitado anteriormente */
+            display: flex;
+            justify-content: center;
+            gap: 3em;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav a, .logout-button {
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            background: #ff4d4d;
+            color: #fff;
+            transition: background 0.3s ease;
+            display: inline-block;
+        }
+
+        nav a:hover, .logout-button:hover {
+            background: #e60000;
+        }
+
+        .logout-button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="welcome-container">
+    <h1>Bem-vindo à UBIStudio</h1>
+    <nav>
+        <ul>
+            <li><a th:href="@{/professores}">Professores</a></li>
+            <li><a th:href="@{/cursos}">Cursos</a></li>
+            <li><a th:href="@{/alunos}">Alunos</a></li>
+        </ul>
+        <ul>
+
+        <li><a th:href="@{/info}">Informações da Escola</a></li>
+
+         </ul>
+
+    </nav>
+</div>
+<!-- Botão de logout com a mesma classe dos outros botões mas posicionado no canto -->
+<form th:action="@{/logout}" method="post">
+    <button class="logout-button" type="submit">Logout</button>
+</form>
+</body>
+</html>

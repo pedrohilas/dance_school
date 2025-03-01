@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Alunos</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background:url('/images/alunos.webp') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: initial;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      color: #000000;
+    }
+
+    h1 {
+      margin-bottom: 1em;
+    }
+
+    a {
+      display: inline-block;
+      margin-bottom: 1em;
+      background-color: rgba(76, 175, 80, 0.7);
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 10px;
+    }
+
+    table {
+      width: 80%;
+      border-collapse: separate; /* Changed from collapse to separate */
+      border-spacing: 0; /* Remove spacing between cells */
+      margin: 0 auto;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+      border-radius: 5px;
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    th {
+      background-color: rgba(76, 175, 80, 1);
+      color: white;
+    }
+    tr {
+      background-color: transparent; /* Ensures the tr element has a transparent background */
+    }
+
+    tr:first-child th:first-child {
+      border-top-left-radius: 30px; /* Rounds the top left corner */
+    }
+
+    tr:first-child th:last-child {
+      border-top-right-radius: 30px; /* Rounds the top right corner */
+    }
+
+    tr:last-child td:first-child {
+      border-bottom-left-radius: 50px; /* Rounds the bottom left corner */
+    }
+
+    tr:last-child td:last-child {
+      border-bottom-right-radius: 50px; /* Rounds the bottom right corner */
+    }
+
+
+
+    tr:hover {
+      background-color: #ddd;
+    }
+
+    .actions a {
+      margin-right: 10px;
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .actions a:hover {
+      text-decoration: underline;
+    }
+
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      /*[[${successMessage}]]*/
+      var successMessage = [[${successMessage != null}]] ? '[[${successMessage}]]' : null;
+      if (successMessage) {
+        Swal.fire({
+          title: 'Sucesso',
+          text: successMessage,
+          icon: 'success',
+          confirmButtonText: 'Ok'
+        });
+      }
+
+      /*[[${errorMessage}]]*/
+      var errorMessage = [[${errorMessage != null}]] ? '[[${errorMessage}]]' : null;
+      if (errorMessage) {
+        Swal.fire({
+          title: 'Erro',
+          text: errorMessage,
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        });
+      }
+    });
+  </script>
+</head>
+<body>
+<h1>Alunos</h1>
+<a th:href="@{/alunos/novo}">Novo Aluno</a>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Nome</th>
+    <th>Email</th>
+    <th>Idade</th>
+    <th>Cursos</th>
+    <th>Ações</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="aluno : ${alunos}">
+    <td th:text="${aluno.id}"></td>
+    <td th:text="${aluno.nome}"></td>
+    <td th:text="${aluno.email}"></td>
+    <td th:text="${aluno.idade}"></td>
+    <td>
+      <ul>
+        <li th:each="curso : ${aluno.cursos}" th:text="${curso.nome}"></li>
+      </ul>
+    </td>
+    <td class="actions">
+      <a th:href="@{/alunos/editar/{id}(id=${aluno.id})}">Editar</a>
+      <a th:href="@{/alunos/deletar/{nome}(nome=${aluno.nome})}">Deletar</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<a class="inicio" href="/">Voltar Atras</a>
+</body>
+</html>

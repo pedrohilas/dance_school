@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Curso Form</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background:url('/images/CURSOS.webp') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        h1 {
+            margin-bottom: 1em;
+        }
+
+        form {
+            background: white;
+            padding: 2em;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5em;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 0.5em;
+            margin-bottom: 1em;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        a {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+
+            width: 100%;
+            padding: 0.5em;
+            margin-bottom: 1em;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        div {
+            background: #dd0a2b;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+    </style>
+
+</head>
+<body>
+<h1 th:text="${#strings.equals(curso.id, null) ? 'Novo Curso' : 'Editar Curso'}"></h1>
+<form th:action="@{/cursos}" th:object="${curso}" method="post">
+    <input type="hidden" th:field="*{id}" required />
+    <label>Nome: <input type="text" th:field="*{nome}" required /></label><br>
+    <label>Descrição: <input type="text" th:field="*{descricao}" required/></label><br>
+    <label>Horas: <input type="number" th:field="*{numeroHoras}" required/></label><br>
+    <label>Professor:
+        <select th:field="*{professor}" required>
+            <option value="0">Por definir</option>
+            <option th:each="professor : ${professores}" th:value="${professor.id}" th:text="${professor.nome}"></option>
+        </select>
+    </label><br>
+    <button type="submit">Salvar</button>
+    <a class="inicio" href="/cursos">Voltar Atras</a>
+    <div th:if="${error}" th:text="${error}" class="error-message"></div>
+
+
+</form>
+</body>
+</html>
